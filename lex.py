@@ -25,3 +25,5 @@ class Lexer:
     #Return the next token
     def getToken(self):
         pass
+
+    #Test
