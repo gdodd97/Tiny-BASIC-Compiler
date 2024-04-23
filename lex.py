@@ -1,14 +1,23 @@
 class Lexer:
     def __init__(self, source):
-        pass
+        self.source = source + '\n' #Source code to lex as a string. Append a newline to simplify lexing/parsing the last token/statement.
+        self.curChar = '' #Current character in the string.
+        self.curPos = -1 #Current Position in the string. 
+        self.nextChar()
 
     #Process the next character.
     def nextChar(self):
-        pass
+        self.curPos += 1
+        if self.curPos >= len(self.source):
+            self.curChar = '\0' #EOF
+        else:
+            self.curChar = self.source[self.curPos]
     
     #Return the lookahead character
     def peek(self):
-        pass
+        if self.curPos +1 >= len(self.source):
+            return '\0'
+        return self.source[self.curPos+1]
 
     #Invalid token found, print error message
     def abort(self, message):
@@ -25,5 +34,3 @@ class Lexer:
     #Return the next token
     def getToken(self):
         pass
-
-    #Test
