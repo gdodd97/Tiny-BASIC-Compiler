@@ -92,6 +92,19 @@ class Lexer:
             token = Token(self.curChar, TokenType.NEWLINE)
         elif self.curChar == '\0':
             token = Token(self.curChar, TokenType.EOF)
+        elif self.curChar == '\"':
+            #Get characters between quotations. 
+            self.nextChar()
+            startPos = self.curPos
+
+            while self.curChar != '\"':
+                #Don't allow special cahracters in the string. No escape characters, newlines, tabs, or %.
+                #We will be using C's printf on this string. 
+                if self.curChar == '\r' or self.curChar == '\n' or self.curChar == '\t' or self.curChar == '\\' or self.curChar == '%':
+                    self.abort("Illegal character in string.")
+                self.nextChar()
+            tokText = self.source[startPos : self.curPos] #Get the substring.
+            token = Token(tokText, TokenType.STRING)
         else:
             #Unknown token!
             self.abort("Unknown token: " + self.curChar)
@@ -139,4 +152,4 @@ class TokenType(enum.Enum):
     GTEQ = 211
 
 
-    
+
